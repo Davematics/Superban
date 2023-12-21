@@ -1,5 +1,7 @@
 {
     "name": "davematics/superban",
+    "keywords": ["Davematics", "Superban"],
+    "license": "MIT",
     "description": "This package will add the ability to ban a client completely for a period of time",
     "autoload": {
         "psr-4": {
@@ -13,7 +15,13 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "phpunit/phpunit": "^10.1"
+    },
     "repositories": [
         {
             "type": "vcs",
