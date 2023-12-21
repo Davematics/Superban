@@ -14,9 +14,7 @@ use Davematics\Superban\Http\Middleware\SuperbanMiddleware;
 
 class SuperbanMiddlewareTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+    
     protected function getPackageProviders($app)
     {
         return ['Davematics\Superban\SuperbanServiceProvider'];
@@ -26,28 +24,28 @@ class SuperbanMiddlewareTest extends TestCase
     {
         parent::setUp();
 
-        // Set up your testing environment
+       
     }
 
     public function testBannedUserGetsForbiddenResponse()
     {
-        // Arrange
+        
         Cache::shouldReceive('put')->once();
         Cache::shouldReceive('get')->andReturn(true);
 
 
-        // Create a dummy route
+       
         Route::post('/testroute', function () {
             return response()->json(['message' => 'This route should not be accessible.']);
         })->middleware('superban:1,5,1');
 
-        // Create a dummy request
+      
         $request = Request::create('/testroute', 'POST');
 
-        // Act
+        
         $response = $this->app->handle($request);
 
-        // Assert
+       
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
         $this->assertEquals('You are banned.', json_decode($response->getContent())->message);
     }
