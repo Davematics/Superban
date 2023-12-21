@@ -22,18 +22,22 @@ class SuperbanMiddleware
 
         $decaySeconds = (int) ($decayMinutes * 60);
 
-        if (
-            $this->limiter->attempt($key, $limit, function () use ($decaySeconds) {
-                return $decaySeconds;
-            })
-        ) {
-            if ($this->limiter->tooManyAttempts($key, $limit)) {
-                $this->banClient($request, $banDuration);
 
-                // returning response
-                return response()->json(['message' => 'You are banned.'], Response::HTTP_FORBIDDEN);
+        if ($this->limiter->attempt($key, $limit, function () use ($decaySeconds) {
+
+                return $decaySeconds;
+            })){
+            if ($this->limiter->tooManyAttempts($key, $limit)) {
+               $this->banClient($request, $banDuration);
+
+
+                return response()->json(['message' => 'You are banned.'], Response::HTTP_TOO_MANY_REQUESTS);
             }
         }
+
+
+        $this->limiter->hit($key, $decaySeconds);
+
 
         return $next($request);
     }
@@ -45,13 +49,12 @@ class SuperbanMiddleware
 
     protected function banClient($request, $banDuration)
     {
-        //gettting the key
+
         $key = $this->resolveRateLimiterKey($request);
 
-        // store a flag in cache indicating that the user is banned
+
         Cache::put("banned:$key", true, $banDuration);
 
-        //clear the rate limiter attempts for this user
-        $this->limiter->resetAttempts($key);
+
     }
 }
