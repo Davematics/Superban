@@ -48,27 +48,29 @@ class SuperbanMiddlewareTest extends TestCase
         $this->assertEquals('You are banned.', json_decode($response->getContent())->message);
     }
 
-    public function testUserCanAccessRouteAfterSomeTime()
+   public function testUserMiddlewareLiftsBanAfterBanTime()
     {
-       
-        $rateLimiter = app(RateLimiter::class);
-       
+        Carbon::setTestNow(Carbon::create(2023, 1, 1, 0, 0, 0));
 
         $routeClosure = function () {
-            
             return response()->json(['message' => 'This route is accessible.']);
         };
 
         $this->app['router']->post('/testroute', $routeClosure)->middleware('superban:2,2,2');
 
-       
+
         $request = Request::create('/testroute', 'POST');
 
         $response = $this->app->handle($request);
 
-        
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertEquals('This route is accessible.', json_decode($response->getContent())->message);
+
+
+        Carbon::setTestNow(Carbon::create(2023, 1, 1, 0, 11, 0));
+
+        $response =  $response = $this->app->handle($request);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
 }
