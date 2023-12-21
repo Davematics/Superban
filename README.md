@@ -48,6 +48,5 @@ To run the package tests, use the following bash command:
 ```bash
 ./vendor/bin/phpunit
 ```
-
-#Security
+# Security
 If you find any security-related concerns, kindly reach out via email to: davgwuche@gmail.com.
