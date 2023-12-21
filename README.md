@@ -1,5 +1,6 @@
 # Superban
-The package offers a middleware named "superban," allowing you to block users from your application. This middleware assesses whether a user is banned and, if so, triggers a UserBannedException. You can catch this exception in your app/Exceptions/Handler.php file and redirect the user to a designated page.
+The package features a middleware named "superban," allowing you to control user access within your application. <br>
+If a user makes excessive requests within a specific timeframe, the middleware will temporarily block the user and later unblock them.
 # Installation
 You can install the package via Composer:
 
