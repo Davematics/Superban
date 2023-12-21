@@ -30,10 +30,15 @@ Route::middleware(['superban:300,5,2880'])->group(function () {
 
 });
 ```
+
+```bash
+Route::post('/add-interest', [App\Http\Controllers\SomeController::class, 'index'])->middleware(['superban:300,5,2880']);
+
+```
 The middleware utilizes Laravel's RateLimiter class to track the number of attempts a user makes to access a resource within a specific time frame. <br>
 If the user surpasses the limit, the middleware generates a key based on the user's email, ID, or IP address and stores it in the cache for the designated time period. If the key is found in the cache, the middleware raises a UserBannedException.
 <br><br>
-#Example
+# Example
 The "superban" middleware accepts three parameters: <br>
 
 The first parameter is the number of attempts a user can make before being banned. <br>
@@ -42,7 +47,7 @@ The last parameter is the number of minutes the user is banned. <br>
 
 On the route you can chnage the parameters 300, 5, 2880 based to fit in your specification.
 
-#Tests
+# Tests
 To run the package tests, use the following bash command:
 
 ```bash
