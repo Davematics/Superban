@@ -1,0 +1,23 @@
+{
+    "name": "davematics/superban",
+    "description": "This package will add the ability to ban a client completely for a period of time",
+    "autoload": {
+        "psr-4": {
+            "Davematics\\Superban\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ogwuche David",
+            "email": "davgwuche@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Davematics/Superban"
+        }
+    ]
+}
